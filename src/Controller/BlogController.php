@@ -10,7 +10,6 @@ namespace App\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -43,7 +42,7 @@ class BlogController extends AbstractController {
      * @Route("/{page}", name="blog_list", defaults={"page": 5}, requirements={"id"="\d+"})
      * @param int $page
      * @param Request $request
-     * @return JsonResponse
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function list($page = 1, Request $request) {
         // Give access to http headers and stuff from the request.
@@ -66,7 +65,7 @@ class BlogController extends AbstractController {
      * requirements to differentiate route parameter types, meaning any number with length 1+
      * @Route("/post/{id)", name="blog_by_id", requirements={"id"="\d+"})
      * @param $id
-     * @return JsonResponse
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function post($id) {
         return $this->json(
@@ -77,7 +76,7 @@ class BlogController extends AbstractController {
     /**
      * @Route("/post/{slug}", name="blog_by_slug")
      * @param $slug
-     * @return JsonResponse
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function postBySlug($slug) {
 //        return new JsonResponse(
