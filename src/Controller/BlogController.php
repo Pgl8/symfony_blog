@@ -20,24 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/blog")
  */
 class BlogController extends AbstractController {
-    // Define data here for the moment
-    private const POSTS = [
-        [
-            'id' => 1,
-            'slug' => 'hello_world',
-            'title' => 'Hello world!',
-        ],
-        [
-            'id' => 2,
-            'slug' => 'another_world',
-            'title' => 'Hello another world!',
-        ],
-        [
-            'id' => 3,
-            'slug' => 'last_world',
-            'title' => 'Hello last world!',
-        ],
-    ];
 
     /**
      * @Route("/{page}", name="blog_list", defaults={"page": 1}, requirements={"page"="\d+"})
@@ -45,32 +27,35 @@ class BlogController extends AbstractController {
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function list($page = 1, Request $request) {
+    public function list($page, Request $request) {
         // Give access to http headers and stuff from the request.
         $limit = $request->get('limit', 10);
 
-
+        // Fetch data from repository.
+        $repository = $this->getDoctrine()->getRepository(BlogPost::class);
+        $items = $repository->findAll();
 
         return $this->json(
             [
                 'page' => (int)$page,
                 'limit' => $limit,
-                'data' => array_map(function ($item) {
-                    return $this->generateUrl('blog_by_slug', ['slug' => $item['slug']]);
-                },self::POSTS)
+                'data' => array_map(function (BlogPost $item) {
+                    return $this->generateUrl('blog_by_slug', ['slug' => $item->getSlug()]);
+                },$items)
             ]
         );
     }
 
     /**
-     * requirements to differentiate route parameter types, meaning any number with length 1+
-     * @Route("/post/{id)", name="blog_by_id", requirements={"id"="\d+"})
+     * @Route("/post/{id}", name="blog_by_id", requirements={"id"="\d+"})
      * @param $id
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function post($id) {
+        $repository = $this->getDoctrine()->getRepository(BlogPost::class);
+
         return $this->json(
-            self::POSTS[array_search($id, array_column(self::POSTS, 'id'))]
+            $repository->find($id)
         );
     }
 
@@ -80,9 +65,10 @@ class BlogController extends AbstractController {
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function postBySlug($slug) {
-//        return new JsonResponse(
+        $repository = $this->getDoctrine()->getRepository(BlogPost::class);
+
         return $this->json(
-            self::POSTS[array_search($slug, array_column(self::POSTS, 'slug'))]
+            $repository->findOneBy(['slug' => $slug])
         );
     }
 
