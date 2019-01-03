@@ -36,6 +36,13 @@ class BlogPost
      */
     private $author;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
+
+    // To add more fields, add variable, getter and setter -> php bin/console make:migration, doctrine:migrations:migrate.
+
     public function getId(): ?int
     {
         return $this->id;
@@ -88,4 +95,16 @@ class BlogPost
 
         return $this;
     }
+
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    public function setSlug($slug): void
+    {
+        $this->slug = $slug;
+    }
+
+
 }
