@@ -51,12 +51,13 @@ class BlogController extends AbstractController {
      * @param $id
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function post($id) {
-        $repository = $this->getDoctrine()->getRepository(BlogPost::class);
-
-        return $this->json(
-            $repository->find($id)
-        );
+    public function post(BlogPost $id) {
+//        $repository = $this->getDoctrine()->getRepository(BlogPost::class);
+//
+//        return $this->json(
+//            $repository->find($id)
+//        );
+        return $this->json($id);
     }
 
     /**
@@ -64,12 +65,13 @@ class BlogController extends AbstractController {
      * @param $slug
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function postBySlug($slug) {
-        $repository = $this->getDoctrine()->getRepository(BlogPost::class);
-
-        return $this->json(
-            $repository->findOneBy(['slug' => $slug])
-        );
+    public function postBySlug(BlogPost $slug) {
+//        $repository = $this->getDoctrine()->getRepository(BlogPost::class);
+//
+//        return $this->json(
+//            $repository->findOneBy(['slug' => $slug])
+//        );
+        return $this->json($slug);
     }
 
     /**
