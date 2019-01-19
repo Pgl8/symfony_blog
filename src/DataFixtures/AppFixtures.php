@@ -14,6 +14,7 @@ class AppFixtures extends Fixture {
      * @throws \Exception
      */
     public function load(ObjectManager $manager) {
+        $this->loadUsers($manager);
         $this->loadBlogPosts($manager);
     }
 
