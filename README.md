@@ -21,7 +21,7 @@ php bin/console doctrine:fixtures:load
 
 ### Author
 
-Pepe García
+Pgl8
 
 ### Version
 
