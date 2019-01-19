@@ -13,6 +13,8 @@ composer install
 php bin/console doctrine:migrations:diff
 # Run migrations
 php bin/console doctrine:migrations:migrate
+# Load testing data with fixures
+php bin/console doctrine:fixtures:load
 ```
 
 ## App Info
